@@ -1,9 +1,9 @@
 /*
  * Course: CSC-1120
- * Assignment name
- * File name
+ * FileIO Review
+ * FileIOReview
  * Name: Sean Jones
- * Last Updated:
+ * Last Updated: 1/22/2026
  */
 package week1;
 
