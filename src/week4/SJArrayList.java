@@ -20,21 +20,35 @@ import java.util.ListIterator;
  */
 public class SJArrayList<E> implements List<E> {
     // default starting size
+    private static final int DEFAULT_CAPACITY = 20;
     // E array
+    private E[] data;
     // size variable
+    private int size;
 
-    @Override
-    public int size() {
-        return 0;
+    public SJArrayList() {
+        this.size = 0;
+        this.data = (E[]) new Object[DEFAULT_CAPACITY];
     }
 
     @Override
-    public boolean isEmpty() {
-        return false;
+    public int size() { // O(1)
+        return this.size;
     }
 
     @Override
-    public boolean contains(Object o) {
+    public boolean isEmpty() { // O(1)
+        return this.size == 0;
+    }
+
+    @Override
+    public boolean contains(Object o) { // O(n)
+        for(int i = 0; i < this.size; ++i) {
+            if(this.data[i].equals(o)) {
+                // found it!
+                return true;
+            }
+        }
         return false;
     }
 
@@ -55,7 +69,10 @@ public class SJArrayList<E> implements List<E> {
 
     @Override
     public boolean add(E e) {
-        return false;
+        // check that it's not full
+        // if it's full, we need a bigger array
+        this.data[this.size++] = e;
+        return true;
     }
 
     @Override
