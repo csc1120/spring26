@@ -68,15 +68,43 @@ public class SJArrayList<E> implements List<E> {
     }
 
     @Override
-    public boolean add(E e) {
+    public boolean add(E e) { // O(1)
         // check that it's not full
         // if it's full, we need a bigger array
+        if(this.size == this.data.length) {
+            // need to make bigger array
+            reallocate();
+            // amortize reallocate so we don't count it
+        }
         this.data[this.size++] = e;
         return true;
     }
 
+    private void reallocate() { // O(n)
+        // make a bigger array
+        E[] newData = (E[]) new Object[this.data.length * 2];
+        // copy everything over
+        for(int i = 0; i < this.data.length; ++i) {
+            newData[i] = this.data[i];
+        }
+        // replace the old array
+        this.data = newData;
+    }
+
     @Override
-    public boolean remove(Object o) {
+    public boolean remove(Object o) { // O(n)
+        // find if it's there
+        for(int i = 0; i < this.size; ++i) {
+            if(this.data[i].equals(o)) {
+                // if its there, remove it
+                // found it. remove it
+                for(int j = i + 1; j < this.size; ++j) {
+                    this.data[j - 1] =  this.data[j];
+                }
+                return true;
+            }
+        }
+        // did not find it, did nothing
         return false;
     }
 
@@ -111,22 +139,48 @@ public class SJArrayList<E> implements List<E> {
     }
 
     @Override
-    public E get(int index) {
-        return null;
+    public E get(int index) { // O(1)
+        if(index < 0 || index >= this.size) {
+            // bad user input
+            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + this.size);
+        }
+        return this.data[index];
     }
 
     @Override
-    public E set(int index, E element) {
-        return null;
+    public E set(int index, E element) { // O(1)
+        if(index < 0 || index >= this.size) {
+            // bad user input
+            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + this.size);
+        }
+        E old = this.data[index];
+        this.data[index] = element;
+        return old;
     }
 
     @Override
-    public void add(int index, E element) {
-
+    public void add(int index, E element) { // O(n)
+        if(index < 0 || index >= this.size) {
+            // bad user input
+            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + this.size);
+        }
+        // am I full?
+        if(this.size == this.data.length) {
+            reallocate();
+        }
+        // move everything to the right
+        for(int i = this.size - 1; i >= index; --i) {
+            this.data[i + 1] =  this.data[i];
+        }
+        this.data[index] = element;
     }
 
     @Override
     public E remove(int index) {
+        if(index < 0 || index >= this.size) {
+            // bad user input
+            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + this.size);
+        }
         return null;
     }
 
