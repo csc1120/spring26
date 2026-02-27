@@ -73,6 +73,7 @@ public class SJLinkedList<E> implements List<E> {
     @Override
     public boolean add(E e) { // O(n)
         Node<E> current = this.head;
+
         // get to the last node
         while(current.next != null) {
             current = current.next;
@@ -134,26 +135,70 @@ public class SJLinkedList<E> implements List<E> {
     }
 
     @Override
-    public E get(int index) {
+    public E get(int index) { // O(n)
         validateIndex(index);
-        return null;
+        Node<E> current = getNode(index);
+
+        return current.data;
+    }
+
+    private Node<E> getNode(int index) {
+        // get us to the correct node
+        Node<E> current = this.head;
+        for(int i = 0; i < index; ++i) {
+            current = current.next;
+        }
+        return current;
     }
 
     @Override
-    public E set(int index, E element) {
+    public E set(int index, E element) { // O(n)
         validateIndex(index);
-        return null;
+        // get us to the correct node
+        Node<E> current = getNode(index);
+
+        E oldValue = current.data;
+        current.data = element;
+        return oldValue;
     }
 
     @Override
-    public void add(int index, E element) {
-
+    public void add(int index, E element) { // O(n)
+        // validate index
+        if(index < 0 || index > this.size) {
+            throw new IndexOutOfBoundsException("Index is out of bounds!");
+        }
+        // get to the node I need
+        // if index == 0
+        if(index == 0) {
+            // add the new value
+            this.head = new Node<>(element, this.head);
+        } else {
+            // add the new value
+            Node<E> current = getNode(index - 1);
+            current.next = new Node<>(element, current.next);
+        }
+        ++this.size;
     }
 
     @Override
-    public E remove(int index) {
+    public E remove(int index) { // O(n)
+        // validate the index
         validateIndex(index);
-        return null;
+        // get to the node I want
+        E temp;
+        if(index == 0) {
+            temp = this.head.data;
+            this.head = this.head.next;
+        } else {
+            Node<E> current = getNode(index - 1);
+            temp = current.next.data;
+            // remove the node
+            current.next = current.next.next;
+        }
+        // return the element
+        --this.size;
+        return temp;
     }
 
     private void validateIndex(int index) {
@@ -163,8 +208,15 @@ public class SJLinkedList<E> implements List<E> {
     }
 
     @Override
-    public int indexOf(Object o) {
-        return 0;
+    public int indexOf(Object o) { // O(n)
+        Node<E> current = this.head;
+        for(int i = 0; i < this.size; ++i) {
+            if(current.data.equals(o)) {
+                return i;
+            }
+            current = current.next;
+        }
+        return -1;
     }
 
     @Override
