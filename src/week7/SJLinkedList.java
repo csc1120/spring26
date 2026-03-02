@@ -27,6 +27,42 @@ public class SJLinkedList<E> implements List<E> {
         }
     }
 
+    private final class SJIterator implements Iterator<E> {
+        private Node<E> next;
+        private Node<E> lastReturned;
+
+        private SJIterator() {
+            this.next = head;
+            this.lastReturned = null;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return this.next != null;
+        }
+
+        @Override
+        public E next() {
+            // remember node
+            this.lastReturned = this.next;
+            // bounce over
+            this.next = this.next.next;
+            //return value
+            return lastReturned.data;
+        }
+
+        @Override
+        public void remove() {
+            // if lastReturned exists
+            if(this.lastReturned == null) {
+                throw new IllegalStateException("No data in memory");
+            }
+            SJLinkedList.this.remove(lastReturned.data);
+            lastReturned = null;
+            // call remove on data
+        }
+    }
+
     private Node<E> head;
     private int size;
 
@@ -61,7 +97,7 @@ public class SJLinkedList<E> implements List<E> {
 
     @Override
     public Iterator<E> iterator() {
-        return null;
+        return new SJIterator();
     }
 
     @Override
