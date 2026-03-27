@@ -10,12 +10,12 @@ package week9;
 import java.util.function.BiConsumer;
 
 public class BinaryTree<E> {
-    private static class Node<E> {
-        private E data;
-        private Node<E> left;
-        private Node<E> right;
+    protected static class Node<E> {
+        protected E data;
+        protected Node<E> left;
+        protected Node<E> right;
 
-        private Node(E data) {
+        protected Node(E data) {
             this.data = data;
             this.left = null;
             this.right = null;
@@ -27,7 +27,11 @@ public class BinaryTree<E> {
         }
     }
 
-    private Node<E> root;
+    protected Node<E> root;
+
+    public BinaryTree() {
+        root = null;
+    }
 
     public BinaryTree(E data, BinaryTree<E> left, BinaryTree<E> right) {
         this.root = new Node<>(data);
