@@ -12,7 +12,7 @@ package week9;
  * @param <E> the element type stored in the Tree
  */
 public class BinarySearchTree<E extends Comparable<E>> extends BinaryTree<E> {
-    private boolean addReturn;
+    protected boolean addReturn;
     private E deleteReturn;
 
     /**

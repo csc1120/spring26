@@ -11,9 +11,9 @@ import java.util.function.BiConsumer;
 
 public class BinaryTree<E> {
     protected static class Node<E> {
-        protected E data;
-        protected Node<E> left;
-        protected Node<E> right;
+        public E data;
+        public Node<E> left;
+        public Node<E> right;
 
         protected Node(E data) {
             this.data = data;
